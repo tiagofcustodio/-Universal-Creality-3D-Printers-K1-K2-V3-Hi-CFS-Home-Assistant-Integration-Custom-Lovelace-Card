@@ -2,7 +2,7 @@
 
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2024.1%2B-blue.svg)](https://www.home-assistant.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
 Complete **Local Push** Home Assistant custom integration + **All-in-One Custom Lovelace Card** (`custom:creality-k2-card`) for **all Creality Klipper / Creality OS 3D Printers** and the **CFS (Creality Filament System)**.
 
@@ -82,4 +82,4 @@ type: custom:creality-k2-card
 ---
 
 ## 📄 License
-Distributed under the [MIT License](LICENSE).
+Distributed under the [GNU General Public License v3.0 (GPLv3)](LICENSE). Any modifications or derivative works must remain open-source under the same license and preserve original author attribution.
