@@ -1,0 +1,5 @@
+{
+  "name": "Creality 3D Printers (K1 / K2 / Ender-3 V3 / Hi + CFS)",
+  "render_readme": true,
+  "homeassistant": "2024.1.0"
+}

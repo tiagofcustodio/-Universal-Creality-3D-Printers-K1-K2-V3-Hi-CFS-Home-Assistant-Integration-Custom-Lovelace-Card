@@ -1,0 +1,23 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Creality K2 SE 4C Printer",
+        "description": "Enter the local IP address of your Creality K2 SE 4C. The integration connects automatically to both the native WebSocket (port 9999) and Moonraker/CFS API (port 7125).",
+        "data": {
+          "host": "Printer IP Address",
+          "moonraker_port": "Moonraker Port (Default: 7125)",
+          "ws_port": "Native WebSocket Port (Default: 9999)",
+          "camera_url": "Optional Camera Snapshot/Stream URL"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the printer. Make sure it is powered on and reachable.",
+      "unknown": "Unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "This printer is already configured."
+    }
+  }
+}

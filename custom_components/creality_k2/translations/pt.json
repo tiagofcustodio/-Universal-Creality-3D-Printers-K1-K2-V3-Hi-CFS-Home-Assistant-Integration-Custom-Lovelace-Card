@@ -1,0 +1,23 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Ligar à Impressora Creality K2 SE 4C",
+        "description": "Introduza o endereço IP local da sua Creality K2 SE 4C. A integração irá ligar-se automaticamente ao WebSocket nativo (porta 9999) e à API Moonraker/CFS (porta 7125).",
+        "data": {
+          "host": "Endereço IP da Impressora",
+          "moonraker_port": "Porta Moonraker (Padrão: 7125)",
+          "ws_port": "Porta WebSocket Nativa (Padrão: 9999)",
+          "camera_url": "URL Opcional de Stream/Snapshot da Câmara (ex: http://192.168.1.79:8080/?action=snapshot)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Não foi possível ligar à impressora. Verifique se está ligada e na mesma rede.",
+      "unknown": "Ocorreu um erro inesperado ao comunicar com a impressora."
+    },
+    "abort": {
+      "already_configured": "Esta impressora já está configurada no Home Assistant."
+    }
+  }
+}

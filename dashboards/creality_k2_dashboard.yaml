@@ -1,0 +1,22 @@
+# ==============================================================================
+# 1. CARTÃO CUSTOMIZADO INTERATIVO (RECOMENDADO - ESTILO CREALITY PRINT)
+# ==============================================================================
+# O ficheiro JS (/local/creality-k2-card.js) já foi instalado no seu Home Assistant!
+# Para usar no Smartphone, Tablet ou PC:
+# 1. Faça Ctrl+F5 no navegador (ou recarregue a app do telemóvel)
+# 2. Edite o seu Dashboard -> Adicionar Cartão -> "Manual" -> Cole apenas as 2 linhas abaixo:
+
+type: custom:creality-k2-card
+prefix: creality_k2_se_4c_k2se_e110
+
+
+# ==============================================================================
+# 2. ALTERNATIVA COM CARTÕES NATIVOS DO HOME ASSISTANT (CASO PREFIRA SEPARADO)
+# ==============================================================================
+# type: vertical-stack
+# cards:
+#   - type: picture-entity
+#     entity: camera.creality_k2_se_4c_k2se_e110_camara_imagem_da_impressao_atual
+#     name: Creality K2 SE 4C - Impressão Atual (3D / Câmara)
+#     show_state: false
+#     show_name: true

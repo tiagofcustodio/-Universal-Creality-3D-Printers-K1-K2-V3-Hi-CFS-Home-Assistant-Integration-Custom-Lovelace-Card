@@ -1,0 +1,174 @@
+blueprint:
+  name: Notificações Inteligentes - Creality K2 SE 4C
+  description: >
+    Envia notificações automáticas para o seu telemóvel (Home Assistant Companion App)
+    com imagem da câmara/modelo 3D quando a impressão inicia, termina, pausa, falha,
+    fica sem filamento ou atinge marcos de progresso (25%, 50%, 75%).
+  domain: automation
+  input:
+    notify_service:
+      name: Serviço de Notificação (Telemóvel)
+      description: Ex. notify.mobile_app_telemovel_tiago
+      default: "notify.notify"
+      selector:
+        text:
+    camera_entity:
+      name: Entidade da Câmara / Pré-visualização 3D
+      description: Selecione a câmara da Creality K2 SE 4C para anexar fotografia/thumbnail às notificações.
+      selector:
+        entity:
+          domain: camera
+    progress_sensor:
+      name: Sensor de Progresso de Impressão (%)
+      description: Selecione o sensor de progresso da impressora.
+      selector:
+        entity:
+          domain: sensor
+    notify_on_milestones:
+      name: Notificar aos 25%, 50% e 75% de Progresso?
+      default: true
+      selector:
+        boolean:
+
+mode: queued
+max: 10
+
+trigger:
+  - platform: event
+    event_type: creality_k2_print_started
+    id: started
+  - platform: event
+    event_type: creality_k2_print_finished
+    id: finished
+  - platform: event
+    event_type: creality_k2_print_paused
+    id: paused
+  - platform: event
+    event_type: creality_k2_print_failed
+    id: failed
+  - platform: event
+    event_type: creality_k2_filament_runout
+    id: runout
+  - platform: event
+    event_type: creality_k2_printer_error
+    id: hw_error
+  - platform: numeric_state
+    entity_id: !input progress_sensor
+    above: 24
+    below: 26
+    id: p25
+  - platform: numeric_state
+    entity_id: !input progress_sensor
+    above: 49
+    below: 51
+    id: p50
+  - platform: numeric_state
+    entity_id: !input progress_sensor
+    above: 74
+    below: 76
+    id: p75
+
+variables:
+  camera: !input camera_entity
+  milestones_enabled: !input notify_on_milestones
+
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: started
+        sequence:
+          - service: !input notify_service
+            data:
+              title: "🖨️ Impressão Iniciada - Creality K2 SE 4C"
+              message: >
+                A imprimir: {{ trigger.event.data.filename }}
+                Slot CFS Ativo: {{ trigger.event.data.Active_cfs_slot }}
+              data:
+                entity_id: "{{ camera }}"
+                tag: "creality_k2_status"
+
+      - conditions:
+          - condition: trigger
+            id: finished
+        sequence:
+          - service: !input notify_service
+            data:
+              title: "✅ Impressão Concluída! - Creality K2 SE 4C"
+              message: >
+                O ficheiro '{{ trigger.event.data.filename }}' terminou com sucesso (100%)!
+              data:
+                entity_id: "{{ camera }}"
+                tag: "creality_k2_status"
+
+      - conditions:
+          - condition: trigger
+            id: paused
+        sequence:
+          - service: !input notify_service
+            data:
+              title: "⏸️ Impressão em Pausa - Creality K2 SE 4C"
+              message: >
+                A impressão '{{ trigger.event.data.filename }}' foi colocada em pausa ({{ trigger.event.data.progress }}% - Camada {{ trigger.event.data.current_layer }}/{{ trigger.event.data.total_layers }}).
+              data:
+                entity_id: "{{ camera }}"
+                tag: "creality_k2_alert"
+
+      - conditions:
+          - condition: trigger
+            id: failed
+        sequence:
+          - service: !input notify_service
+            data:
+              title: "❌ Impressão Cancelada / Falhou - Creality K2 SE 4C"
+              message: >
+                A impressão '{{ trigger.event.data.filename }}' parou aos {{ trigger.event.data.progress }}%.
+              data:
+                entity_id: "{{ camera }}"
+                tag: "creality_k2_alert"
+
+      - conditions:
+          - condition: trigger
+            id: runout
+        sequence:
+          - service: !input notify_service
+            data:
+              title: "⚠️ Falta de Filamento Detetada! - Creality K2 SE 4C"
+              message: >
+                O sensor detetou falta de filamento durante '{{ trigger.event.data.filename }}' (Slot: {{ trigger.event.data.active_slot }}).
+              data:
+                entity_id: "{{ camera }}"
+                tag: "creality_k2_alert"
+
+      - conditions:
+          - condition: trigger
+            id: hw_error
+        sequence:
+          - service: !input notify_service
+            data:
+              title: "🚨 Erro na Impressora Creality K2 SE 4C"
+              message: >
+                Código de erro reportado: {{ trigger.event.data.error_code }} (Key: {{ trigger.event.data.error_key }}).
+              data:
+                entity_id: "{{ camera }}"
+                tag: "creality_k2_error"
+
+      - conditions:
+          - condition: and
+            conditions:
+              - condition: template
+                value_template: "{{ milestones_enabled }}"
+              - condition: trigger
+                id:
+                  - p25
+                  - p50
+                  - p75
+        sequence:
+          - service: !input notify_service
+            data:
+              title: "📊 Progresso Creality K2 SE 4C: {{ states(progress_sensor) }}%"
+              message: >
+                A sua impressão atingiu {{ states(progress_sensor) }}% de conclusão.
+              data:
+                entity_id: "{{ camera }}"
+                tag: "creality_k2_status"

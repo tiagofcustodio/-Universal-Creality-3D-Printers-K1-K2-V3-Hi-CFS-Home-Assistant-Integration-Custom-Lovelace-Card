@@ -1,0 +1,82 @@
+send_gcode:
+  name: Enviar Comando G-Code / Macro Klipper
+  description: Envia um comando G-Code ou macro Klipper diretamente para a impressora Creality K2 SE 4C (ex. G28, M106 S255, BOX_INFO_REFRESH).
+  fields:
+    gcode:
+      name: Comando G-Code
+      description: Linha(s) de G-Code ou nome da macro a executar.
+      required: true
+      example: "G28"
+      selector:
+        text:
+          multiline: true
+    host:
+      name: Endereço IP da Impressora (Opcional)
+      description: Se tiver mais do que uma impressora, indique o IP (ex. 192.168.1.79).
+      required: false
+      example: "192.168.1.79"
+      selector:
+        text:
+
+start_print:
+  name: Iniciar Impressão de Ficheiro G-Code
+  description: Inicia a impressão de um ficheiro G-Code guardado na memória interna da impressora.
+  fields:
+    filename:
+      name: Nome do Ficheiro G-Code
+      description: Nome exato do ficheiro na impressora.
+      required: true
+      example: "cotton pad holder.stl_PLA_9h26m15s.gcode"
+      selector:
+        text:
+    host:
+      name: Endereço IP da Impressora (Opcional)
+      required: false
+      example: "192.168.1.79"
+      selector:
+        text:
+
+cfs_load_slot:
+  name: CFS Carregar Bobine / Slot de Cor (4C)
+  description: Comuta ou carrega o filamento de um dos 4 slots do CFS-Nano (T1A, T1B, T1C ou T1D).
+  fields:
+    slot:
+      name: Slot CFS
+      description: Escolha qual das 4 bobines carregar para o extrusor.
+      required: true
+      example: "T1B"
+      selector:
+        select:
+          options:
+            - "T1A"
+            - "T1B"
+            - "T1C"
+            - "T1D"
+    host:
+      name: Endereço IP da Impressora (Opcional)
+      required: false
+      example: "192.168.1.79"
+      selector:
+        text:
+
+cfs_unload:
+  name: CFS Descarregar / Retrair Filamento
+  description: Corta e retrai o filamento atualmente carregado no extrusor de volta para o CFS (macro BOX_QUIT_MATERIAL).
+  fields:
+    host:
+      name: Endereço IP da Impressora (Opcional)
+      required: false
+      example: "192.168.1.79"
+      selector:
+        text:
+
+cfs_refresh:
+  name: CFS Atualizar Leitura de Bobines
+  description: Força o CFS-Nano a reler os sensores e etiquetas RFID das 4 bobines (macro BOX_INFO_REFRESH).
+  fields:
+    host:
+      name: Endereço IP da Impressora (Opcional)
+      required: false
+      example: "192.168.1.79"
+      selector:
+        text:
