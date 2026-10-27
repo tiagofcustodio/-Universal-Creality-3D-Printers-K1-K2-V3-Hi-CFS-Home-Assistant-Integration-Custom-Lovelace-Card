@@ -444,7 +444,7 @@ class CrealityK2Coordinator(DataUpdateCoordinator[dict[str, Any]]):
                 cfs_slots[slot_key] = {
                     "slot": slot_key,
                     "unit": unit_id,
-                    "unit_connected": unit_Obj_connected := (unit_obj.get("state") == "connect"),
+                    "unit_connected": unit_obj.get("state") == "connect",
                     "material": "Vazio" if is_empty else mat_label,
                     "material_code": raw_code,
                     "color_hex": hex_color,
